@@ -1,5 +1,6 @@
 import { Client } from "discord-rpc";
 import {app, BrowserWindow, Menu, Tray} from "electron";
+import * as path from "path";
 
 let mainWindow: BrowserWindow;
 let tray: Tray;
@@ -9,7 +10,7 @@ const client = new Client({
 });
 
 app.whenReady().then(() => {
-    tray = new Tray("rpc.png");
+    tray = new Tray(path.join(__dirname, "rpc.png"));
     tray.on("click", () => mainWindow.show())
     tray.setContextMenu(Menu.buildFromTemplate([
         {
@@ -22,6 +23,7 @@ app.whenReady().then(() => {
     ]))
     mainWindow = new BrowserWindow({
         title: "Discord Rich Presence Client",
+        icon: path.join(__dirname, "rpc-dark.png")
     });
     mainWindow.removeMenu();
     mainWindow.loadFile("index.html").catch(console.error);
