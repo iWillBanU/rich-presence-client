@@ -2,32 +2,35 @@
 <html lang="en">
     <head>
         <title>Discord Rich Presence Client</title>
-        <link rel="stylesheet" href="bootstrap-5.0.0-beta1-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="bootstrap-5.0.0-beta1-dist/css/bootstrap.min.css">
         <link rel="shorcut icon" type="image/png" href="rpc-dark.png">
     </head>
     <body>
         <h4 class="text-center">Discord Rich Presence Client</h4>
-        <script src="bootstrap-5.0.0-beta1-dist/js/bootstrap.bundle.js"></script>
-        <div class="container">
+        <script src="bootstrap-5.0.0-beta1-dist/js/bootstrap.bundle.min.js"></script>
+        <form class="container was-validated">
             <div class="row mt-3">
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="client-id" placeholder="Client ID" pattern="\d{16,18}">
+                        <input required type="text" class="form-control" id="client-id" placeholder="Client ID" pattern="\d{16,18}">
                         <label for="client-id">Client ID</label>
+                        <div class="invalid-feedback">This field is required and must be a valid snowflake.</div>
                     </div>
                 </div>
             </div>
             <div class="row g-3 mt-1">
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="state" placeholder="State">
+                        <input type="text" class="form-control" id="state" placeholder="State" minlength="2">
                         <label for="state">State</label>
+                        <div class="invalid-feedback">This field must be at least 2 characters long.</div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="details" placeholder="Details">
+                        <input type="text" class="form-control" id="details" placeholder="Details" minlength="2">
                         <label for="details">Details</label>
+                        <div class="invalid-feedback">This field must be at least 2 characters long.</div>
                     </div>
                 </div>
             </div>
@@ -36,12 +39,14 @@
                     <div class="form-floating">
                         <input type="datetime-local" class="form-control" id="start" placeholder="Start">
                         <label for="start">Start</label>
+                        <div class="invalid-feedback">Please enter a valid date and time.</div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-floating">
                         <input type="datetime-local" class="form-control" id="end" placeholder="End">
                         <label for="end">End</label>
+                        <div class="invalid-feedback">Please enter a valid date and time.</div>
                     </div>
                 </div>
             </div>
@@ -54,8 +59,9 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="large-image-text" placeholder="Large Image Text">
+                        <input type="text" class="form-control" id="large-image-text" placeholder="Large Image Text" minlength="2">
                         <label for="large-image-text">Large Image Text</label>
+                        <div class="invalid-feedback">This field must be at least 2 characters long.</div>
                     </div>
                 </div>
             </div>
@@ -68,8 +74,9 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="small-image-text" placeholder="Small Image Text">
+                        <input type="text" class="form-control" id="small-image-text" placeholder="Small Image Text" minlength="2">
                         <label for="small-image-text">Small Image Text</label>
+                        <div class="invalid-feedback">This field must be at least 2 characters long.</div>
                     </div>
                 </div>
             </div>
@@ -87,6 +94,24 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
+        <script>
+            const fs = require("fs");
+            const path = require("path");
+            if (fs.existsSync(path.join(process.env.APPDATA || (process.platform === 'darwin' ? process.env.HOME + '/Library/Preferences' : process.env.HOME + "/.local/share"), "rpc.json"))) {
+                const data = JSON.parse(fs.readFileSync(path.join(process.env.APPDATA || (process.platform === 'darwin' ? process.env.HOME + '/Library/Preferences' : process.env.HOME + "/.local/share"), "rpc.json")).toString("utf-8"));
+                if (data.clientID) document.querySelector("#client-id").value = data.clientID;
+                if (data.state) document.querySelector("#state").value = data.state;
+                if (data.details) document.querySelector("#details").value = data.details;
+                if (data.start) document.querySelector("#start").value = data.start;
+                if (data.end) document.querySelector("#end").value = data.end;
+                if (data.largeImageKey) document.querySelector("#large-image-key").value = data.largeImageKey;
+                if (data.largeImageText) document.querySelector("#large-image-text").value = data.largeImageText;
+                if (data.smallImageKey) document.querySelector("#small-image-key").value = data.smallImageKey;
+                if (data.smallImageText) document.querySelector("#small-image-text").value = data.smallImageText;
+                if (data.partySize) document.querySelector("#party-size").value = data.partySize;
+                if (data.partyMax) document.querySelector("#party-max").value = data.partyMax;
+            }
+        </script>
     </body>
 </html>

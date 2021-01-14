@@ -1,18 +1,21 @@
 {
   "name": "rich-presence-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Rich Presence Client for Discord",
   "main": "index.js",
   "scripts": {
-    "start:dev": "tsc & electron .",
     "start": "electron-forge start",
     "build": "tsc",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
-  "keywords": ["discord", "rich-presence"],
+  "keywords": [
+    "discord",
+    "rich-presence"
+  ],
   "author": "Mattx8y",
-  "license": "ISC",
+  "license": "MIT",
+  "private": true,
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",
     "@electron-forge/maker-deb": "^6.0.0-beta.54",
