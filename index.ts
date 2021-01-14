@@ -3,6 +3,8 @@ import {app, BrowserWindow, Menu, Tray} from "electron";
 import * as fs from "fs";
 import * as path from "path";
 
+if (!app.requestSingleInstanceLock()) app.quit();
+
 let mainWindow: BrowserWindow;
 let tray: Tray;
 let closing = false;
@@ -41,6 +43,14 @@ app.whenReady().then(() => {
     updateActivity().catch(console.error);
     setInterval(() => updateActivity(), 15e3);
 }).catch(console.error);
+
+app.on("second-instance", () => {
+   if (!mainWindow) return;
+
+   mainWindow.show();
+   if (mainWindow.isMinimized()) mainWindow.restore();
+   mainWindow.focus();
+});
 
 async function updateActivity() {
     if (!mainWindow) return;
